@@ -137,10 +137,10 @@ const DevicesPage: FC = () => {
       >
         <JSONTree
           data={Object.entries(originalData)
-            .reduce((acc, [key, value]) => {
+            .reduce((acc, [, value]) => {
               return [...acc, ...value];
             }, [])
-            .find((device) => device.id === selectedRow)}
+            .find((device: any) => device.id === selectedRow)}
         />
       </Dialog>
       <DataGrid

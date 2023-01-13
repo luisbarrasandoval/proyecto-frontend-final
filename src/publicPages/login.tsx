@@ -6,6 +6,8 @@ import { useSetRecoilState } from "recoil";
 import { authState } from "../atom/auth";
 import { login } from "../utils/login";
 
+import { FRONT_URL } from "../utils/env";
+
 const LoginPage: FC = () => {
 
   const setAuth = useSetRecoilState(authState)
@@ -55,7 +57,7 @@ const LoginPage: FC = () => {
       <Typography variant="h3">Bienvenido!</Typography>
       <Button variant="contained" color="primary" onClick={() => {
           window.location.href =
-            "http://monitoreo.midechile.cl/login.html?client_id=Mide+Chile+Riegos&access_type=0xFFFFFFFF&redirect_uri=http://192.168.1.221ya:5173/login";
+            `http://monitoreo.midechile.cl/login.html?client_id=Mide+Chile+Riegos&access_type=0xFFFFFFFF&redirect_uri=${FRONT_URL}/login";}`
         }}>
         Iniciar Sesion
       </Button>

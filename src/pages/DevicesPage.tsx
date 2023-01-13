@@ -80,7 +80,7 @@ const DevicesPage: FC = () => {
   } | null>(null);
 
   const [clickOpen, setClickOpen] = useState(false);
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<any>([]);
 
   const handleContextMenu = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -96,26 +96,27 @@ const DevicesPage: FC = () => {
     setContextMenu(null);
   };
 
-  const { data: originalData, isLoading } = useQuery(
-    ["users"],
-    () => getDevices(user.token),
-    {
-      onSuccess: (data) => {
-        const d = Object.entries(data).reduce((acc, [key, value]) => {
-          return [
-            ...acc,
-            ...value.map((device) => ({
-              id: device.id,
-              name: device.name,
-              group: key,
-              phone: device.phone,
-            })),
-          ];
-        }, []);
-        setData(d);
-      },
-    }
-  );
+  const isLoading = false
+  // const { data: originalData, isLoading } = useQuery(
+  //   ["users"],
+  //   () => getDevices(user.token),
+  //   {
+  //     onSuccess: (data) => {
+  //       const d = Object.entries(data).reduce((acc, [key, value]) => {
+  //         return [
+  //           ...acc,
+  //           ...value.map((device) => ({
+  //             id: device.id,
+  //             name: device.name,
+  //             group: key,
+  //             phone: device.phone,
+  //           })),
+  //         ];
+  //       }, []);
+  //       setData(d);
+  //     },
+  //   }
+  // );
 
   if (isLoading) return <LoadingTable />;
 
@@ -125,24 +126,7 @@ const DevicesPage: FC = () => {
         flex: 1,
       }}
     >
-      <Dialog
-        open={clickOpen}
-        onClose={() => setClickOpen(false)}
-        sx={{
-          width: "100%",
-          "& .MuiDialog-paper": {
-            resize: "both",
-          },
-        }}
-      >
-        <JSONTree
-          data={Object.entries(originalData)
-            .reduce((acc, [, value]) => {
-              return [...acc, ...value];
-            }, [])
-            .find((device: any) => device.id === selectedRow)}
-        />
-      </Dialog>
+    
       <DataGrid
         components={{
           NoRowsOverlay: () => (

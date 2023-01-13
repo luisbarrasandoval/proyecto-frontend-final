@@ -17,12 +17,24 @@ import LoadingDashboard from "../components/loadings/LoadingDashboard";
 import { Stack } from "@mui/system";
 import DateTime from "../components/DateTime";
 import { Add, List, Lock, RemoveRedEye, TableView } from "@mui/icons-material";
+import { useEffect, useState } from "react";
 
 export default function Dashboard() {
-  const { user } = useRecoilValue(authState);
-  const { data: devices, isLoading } = useQuery(["devices"], async () =>
-    getDevices(user?.token)
-  );
+  // const { user } = useRecoilValue(authState);
+  // const { data: devices, isLoading } = useQuery(["devices"], async () =>
+  //   getDevices(user?.token)
+  // );
+
+  const [ isLoading, setIsLoading ] = useState(true);
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setIsLoading(false);
+    }
+    , 1000);
+    return () => clearTimeout(id);
+  }, []);
+
+
 
   if (isLoading) return <LoadingDashboard />;
 

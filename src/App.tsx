@@ -13,15 +13,15 @@ function App() {
   const auth = useRecoilValue(authState);
 
 
-  if (!auth.isAuth) {
-    return (
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="*" element={<LoginPage />} />
-      </Routes>
-    );
-  }
+  // if (!auth.isAuth) {
+  //   return (
+  //     <Routes>
+  //       <Route path="/login" element={<LoginPage />} />
+  //       <Route path="/register" element={<RegisterPage />} />
+  //       <Route path="*" element={<LoginPage />} />
+  //     </Routes>
+  //   );
+  // }
 
 
   return (

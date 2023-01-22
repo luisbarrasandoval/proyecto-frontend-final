@@ -1,37 +1,11 @@
 import { Draggable } from "react-beautiful-dnd";
-import { LoremIpsum } from "lorem-ipsum";
-import { generateFromString } from "generate-avatar";
-import React, { useMemo } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import Actuador from "./Actuador";
 
-const Avatar = styled.img`
-  height: 30px;
-  width: 30px;
-  border: 3px solid white;
-  border-radius: 50%;
-`;
-
-const CardHeader = styled.div`
-  font-weight: 500;
-`;
-
-const Author = styled.div`
-  display: flex;
-  align-items: center;
-`;
-const CardFooter = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
 
 const DragItem = styled.div`
   margin-bottom: 10px;
 `;
-
-const lorem = new LoremIpsum();
 
 export interface ListItemProps {
   item: {
@@ -43,27 +17,30 @@ export interface ListItemProps {
 }
 
 const ListItem = ({ item, index }: ListItemProps) => {
-  const randomHeader = useMemo(() => lorem.generateWords(5), []);
+
+  console.log(item)
 
   return (
-    <Draggable draggableId={item.id} index={index}>
+    <Draggable draggableId={item.id.toString()} index={index}>
       {(provided, snapshot) => {
+        console.log(item.group)
         return (
           <DragItem
             ref={provided.innerRef}
-            snapshot={snapshot as any}
+            // @ts-ignore
+            snapshot={snapshot}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
             <Actuador
-              id={""}
-              name={"Prueba"}
+              id={item.id}
+              name={item.name}
               status={false}
               type=""
               lastAction="sin datos"
-              description={"+56002112313232"}
-              online={1}
-              showButton={false}
+              description={item.phone}
+              online={item.parmas.acc_trigger.v > 0}
+              showButton={item.group === "Sin grupo"}
               showOptions={false}
             />
           </DragItem>

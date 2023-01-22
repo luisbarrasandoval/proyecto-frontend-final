@@ -4,7 +4,6 @@ import styled from "styled-components";
 import {
   Box,
   Button,
-  Divider,
   IconButton,
   ListItemIcon,
   Menu,
@@ -13,7 +12,6 @@ import {
   Switch,
   Tooltip,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import { Settings } from "@mui/icons-material";
@@ -30,7 +28,6 @@ export interface DraggableElementProps {
 }
 
 const DraggableElement = ({ prefix, elements }: DraggableElementProps) => {
-  const theme = useTheme();
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -95,7 +92,7 @@ const DraggableElement = ({ prefix, elements }: DraggableElementProps) => {
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
             {elements.map((item, index) => (
-              <ListItem key={item.id} item={item} index={index} />
+              <ListItem key={item.id.toString()} item={item} index={item.order} />
             ))}
             {provided.placeholder}
             {elements.length === 0 && (

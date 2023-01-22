@@ -1,28 +1,18 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, OnDragEndResponder } from "react-beautiful-dnd";
 import DraggableElement from "./DraggableElement";
 import { useTheme } from "@mui/material";
+import { Device } from "../interfaces/Devices";
 
 const DragDropContextContainer = styled.div`
 `;
 
 const ListGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   grid-gap: 8px;
 `;
-
-// fake data generator
-const getItems = (count: number, prefix: string) =>
-  Array.from({ length: count }, (v, k) => k).map((k) => {
-    const randomId = Math.floor(Math.random() * 1000);
-    return {
-      id: `item-${randomId}`,
-      prefix,
-      content: `item ${randomId}`
-    };
-  });
 
 const removeFromList = (list: any[], index: number) => {
   const result = Array.from(list);
@@ -36,37 +26,38 @@ const addToList = (list: any[], index: number, element: any) => {
   return result;
 };
 
-const lists = ["Sin Grupo", "Sector 1", "Sector 2", "Sector 3"];
+export interface DragListProps {
+  devices: any[]
+}
 
-const generateLists = () =>
-  lists.reduce(
-    (acc, listKey) => ({ ...acc, [listKey]: getItems(2, listKey) }),
-    {}
-  );
-
-function DragList() {
-  const [elements, setElements] = React.useState(generateLists());
+function DragList({ devices }: DragListProps) {
+  const [elements, setElements] = React.useState(devices);
+  const [ lists, setLists ] = React.useState<any[]>(Object.keys(devices))
   const theme = useTheme()
 
   useEffect(() => {
-    console.log(elements)
-    setElements(generateLists());
+    setElements(devices);
   }, []);
 
-  const onDragEnd = (result) => {
+  const onDragEnd: OnDragEndResponder = (result) => {
     if (!result.destination) {
       return;
     }
     const listCopy = { ...elements };
+    const droppableSourceId = result.source.droppableId as keyof typeof listCopy;
+    const droppableDestinationId = result.destination.droppableId as keyof typeof listCopy;
 
-    const sourceList = listCopy[result.source.droppableId];
+
+    const sourceList = listCopy[droppableSourceId];
     const [removedElement, newSourceList] = removeFromList(
       sourceList,
       result.source.index
     );
-    listCopy[result.source.droppableId] = newSourceList;
-    const destinationList = listCopy[result.destination.droppableId];
-    listCopy[result.destination.droppableId] = addToList(
+    // @ts-ignore
+    listCopy[droppableSourceId] = newSourceList;
+    const destinationList = listCopy[droppableDestinationId];
+    // @ts-ignore
+    listCopy[droppableDestinationId] = addToList(
       destinationList,
       result.destination.index,
       removedElement
@@ -84,6 +75,7 @@ function DragList() {
         }}>
           {lists.map((listKey) => (
             <DraggableElement
+              // @ts-ignore
               elements={elements[listKey]}
               key={listKey}
               prefix={listKey}

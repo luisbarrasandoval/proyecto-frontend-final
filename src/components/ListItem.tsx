@@ -18,12 +18,10 @@ export interface ListItemProps {
 
 const ListItem = ({ item, index }: ListItemProps) => {
 
-  console.log(item)
 
   return (
     <Draggable draggableId={item.id.toString()} index={index}>
       {(provided, snapshot) => {
-        console.log(item.group)
         return (
           <DragItem
             ref={provided.innerRef}
@@ -35,7 +33,7 @@ const ListItem = ({ item, index }: ListItemProps) => {
             <Actuador
               id={item.id}
               name={item.name}
-              status={false}
+              status={item.parmas.gprs_answer.v.endsWith('0')}
               type=""
               lastAction="sin datos"
               description={item.phone}

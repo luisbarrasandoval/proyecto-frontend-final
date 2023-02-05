@@ -3,25 +3,25 @@ import {
   CardActions,
   CardContent,
   Typography,
-  Switch,
   Divider,
   Button,
   Tooltip,
-  Avatar,
-  CardHeader,
   IconButton,
   Grid,
   Box,
   Menu,
   MenuItem,
   ListItemIcon,
-  Dialog,
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { FC, useState } from "react";
 import { OfflineBolt, Settings } from "@mui/icons-material";
 import Modal from "./Modal";
+import { BACK_URL } from "../utils/env";
+import { off, on } from "../utils/onOffDevice";
+
+
 
 export interface ActuadorProps {
   id: string;
@@ -234,11 +234,7 @@ const Actuador: FC<ActuadorProps> = ({
               display: showButton ? "block" : "none",
             }}
           >
-            <Tooltip
-              title={
-                status ? `${name}, ya se encuentra activo` : `Activar ${name}`
-              }
-            >
+          
               <Button
                 size="small"
                 disabled={status || !online}
@@ -247,15 +243,13 @@ const Actuador: FC<ActuadorProps> = ({
                     pointerEvents: "auto",
                   },
                 }}
+                onClick={async () => {
+                  await on(+id)
+                 }}
               >
                 Activar
               </Button>
-            </Tooltip>
-            <Tooltip
-              title={
-                !status ? `${name}, ya se encuentra apagado` : `Apagar ${name}`
-              }
-            >
+          
               <Button
                 size="small"
                 color="error"
@@ -265,10 +259,13 @@ const Actuador: FC<ActuadorProps> = ({
                     pointerEvents: "auto",
                   },
                 }}
+                // TODO: Separa en una funcition
+                onClick={async () => {
+                  await off(+id)
+                }}
               >
                 Apagar
               </Button>
-            </Tooltip>
           </CardActions>
         </Card>
       </Tooltip>

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { DragDropContext, OnDragEndResponder } from "react-beautiful-dnd";
 import DraggableElement from "./DraggableElement";
 import { useTheme } from "@mui/material";
-import { Device } from "../interfaces/Devices";
 
 const DragDropContextContainer = styled.div`
 `;
@@ -37,7 +36,7 @@ function DragList({ devices }: DragListProps) {
 
   useEffect(() => {
     setElements(devices);
-  }, []);
+  }, [devices]);
 
   const onDragEnd: OnDragEndResponder = (result) => {
     if (!result.destination) {

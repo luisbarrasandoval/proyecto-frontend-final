@@ -17,6 +17,7 @@ import { Stack } from "@mui/system";
 import { Settings } from "@mui/icons-material";
 import { GridMoreVertIcon } from "@mui/x-data-grid";
 import { useState } from "react";
+import { off, on } from "../utils/onOffDevice";
 
 const ColumnHeader = styled.div`
   text-transform: uppercase;
@@ -30,6 +31,7 @@ export interface DraggableElementProps {
 const DraggableElement = ({ prefix, elements }: DraggableElementProps) => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [ onSwitch, setOnSwitch ] = useState(false);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -51,7 +53,15 @@ const DraggableElement = ({ prefix, elements }: DraggableElementProps) => {
         <ColumnHeader>{prefix}</ColumnHeader>
         {prefix !== "Sin Grupo" && (
           <Box sx={{ flexGrow: 0 }}>
-            <Switch />
+            <Switch checked={onSwitch} onChange={() => {
+              elements.forEach((element: any) => {
+                if (onSwitch) {
+                  off(element.id);
+                } else {
+                  on(element.id);
+                }
+              });
+              setOnSwitch(!onSwitch)}} />
             <Tooltip title="Abrir opciones">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <GridMoreVertIcon />

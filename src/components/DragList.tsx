@@ -39,6 +39,7 @@ function DragList({ devices }: DragListProps) {
   }, [devices]);
 
   const onDragEnd: OnDragEndResponder = (result) => {
+    console.log(result)
     if (!result.destination) {
       return;
     }

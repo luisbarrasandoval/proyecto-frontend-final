@@ -18,7 +18,6 @@ export interface ListItemProps {
 
 const ListItem = ({ item, index }: ListItemProps) => {
 
-
   return (
     <Draggable draggableId={item.id.toString()} index={index}>
       {(provided, snapshot) => {
@@ -38,7 +37,7 @@ const ListItem = ({ item, index }: ListItemProps) => {
               lastAction="sin datos"
               description={item.phone}
               online={item.parmas.acc_trigger.v > 0}
-              showButton={item.group === "Sin grupo"}
+              showButton={true}
               showOptions={false}
             />
           </DragItem>

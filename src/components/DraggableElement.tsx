@@ -16,7 +16,7 @@ import {
 import { Stack } from "@mui/system";
 import { Settings } from "@mui/icons-material";
 import { GridMoreVertIcon } from "@mui/x-data-grid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { off, on } from "../utils/onOffDevice";
 
 const ColumnHeader = styled.div`
@@ -32,6 +32,14 @@ const DraggableElement = ({ prefix, elements }: DraggableElementProps) => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [ onSwitch, setOnSwitch ] = useState(false);
+
+  useEffect(() => {
+    let status = elements[0].parmas.gprs_answer.v.endsWith('0')
+    elements.slice(1).forEach((element: any) => {
+      status = status && element.parmas.gprs_answer.v.endsWith('0')
+    });
+    setOnSwitch(status)
+  }, [elements])
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);

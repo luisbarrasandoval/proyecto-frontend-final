@@ -12,6 +12,7 @@ import {
   ListItemText,
   Menu,
   MenuItem,
+  Modal,
   Paper,
   Typography,
 } from "@mui/material";
@@ -19,6 +20,7 @@ import getDevices from "../utils/getDevices";
 import { useRecoilValue } from "recoil";
 import { authState } from "../atom/auth";
 import {
+  ConstructionOutlined,
   ContentCopy,
   OnDeviceTraining,
   RunCircle,
@@ -96,29 +98,32 @@ const DevicesPage: FC = () => {
     setContextMenu(null);
   };
 
-  const isLoading = false
-  // const { data: originalData, isLoading } = useQuery(
-  //   ["users"],
-  //   () => getDevices(user.token),
-  //   {
-  //     onSuccess: (data) => {
-  //       const d = Object.entries(data).reduce((acc, [key, value]) => {
-  //         return [
-  //           ...acc,
-  //           ...value.map((device) => ({
-  //             id: device.id,
-  //             name: device.name,
-  //             group: key,
-  //             phone: device.phone,
-  //           })),
-  //         ];
-  //       }, []);
-  //       setData(d);
-  //     },
-  //   }
-  // );
+  const { data: originalData, isLoading } = useQuery(
+    ["users"],
+    () =>
+      getDevices(
+        "85c199ebb176b1acb0a50b7f0c36d5772B906246A0EFF0CD28FD753E4E6D47EABCFC9C70"
+      ),
+    {
+      onSuccess: (data) => {
+        const d = Object.entries(data).reduce((acc, [key, value]) => {
+          return [
+            ...acc,
+            ...value.map((device) => ({
+              id: device.id,
+              name: device.name,
+              group: key,
+              phone: device.phone,
+            })),
+          ];
+        }, []);
+        setData(d);
+      },
+    }
+  );
 
   if (isLoading) return <LoadingTable />;
+  console.log(originalData);
 
   return (
     <Box
@@ -126,7 +131,36 @@ const DevicesPage: FC = () => {
         flex: 1,
       }}
     >
-    
+      <Modal open={clickOpen} onClose={() => setClickOpen(false)} sx={{
+        overflowY:"scroll"
+      }}>
+        <Paper
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: "50%",
+            justifyContent: "center",
+            margin: "70px auto",
+            padding: 1,
+            overflow: "auto",
+            overflowY: "scroll"            
+          }}
+        >
+          <Typography variant="h5">Informacion del dispositivo</Typography>
+          <JSONTree
+
+            data={Object.keys(originalData)
+              .map((k) => originalData[k])
+              .flat()
+              .find((d) => d.id === selectedRow)}
+            theme={{
+              scheme: "monokai",
+            }}
+            
+          />
+        </Paper>
+      </Modal>
+
       <DataGrid
         components={{
           NoRowsOverlay: () => (
@@ -153,6 +187,10 @@ const DevicesPage: FC = () => {
         checkboxSelection
         disableSelectionOnClick
         autoPageSize
+        onCellClick={(event) => {
+          setSelectedRow(Number(event.row.id));
+          setClickOpen(true);
+        }}
         componentsProps={{
           row: {
             onContextMenu: handleContextMenu,

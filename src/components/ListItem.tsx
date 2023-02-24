@@ -32,11 +32,11 @@ const ListItem = ({ item, index }: ListItemProps) => {
             <Actuador
               id={item.id}
               name={item.name}
-              status={item.parmas.gprs_answer.v.endsWith('0')}
+              status={item.parmas?.gprs_answer?.v.endsWith('0')}
               type=""
               lastAction="sin datos"
               description={item.phone}
-              online={item.parmas.acc_trigger.v > 0}
+              online={item.parmas.acc_trigger?.v > 0}
               showButton={true}
               showOptions={false}
             />

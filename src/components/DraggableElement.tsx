@@ -34,9 +34,9 @@ const DraggableElement = ({ prefix, elements }: DraggableElementProps) => {
   const [ onSwitch, setOnSwitch ] = useState(false);
 
   useEffect(() => {
-    let status = elements[0].parmas.gprs_answer.v.endsWith('0')
+    let status = elements && elements[0] && elements[0].parmas.gprs_answer?.v.endsWith('0')
     elements.slice(1).forEach((element: any) => {
-      status = status && element.parmas.gprs_answer.v.endsWith('0')
+      status = element && status && element.parmas.gprs_answer?.v.endsWith('0')
     });
     setOnSwitch(status)
   }, [elements])
@@ -110,7 +110,8 @@ const DraggableElement = ({ prefix, elements }: DraggableElementProps) => {
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
             {elements.map((item, index) => (
-              <ListItem key={item.id.toString()} item={item} index={item.order} />
+              
+              item && <ListItem key={item.id.toString()} item={item} index={item.order} />
             ))}
             {provided.placeholder}
             {elements.length === 0 && (

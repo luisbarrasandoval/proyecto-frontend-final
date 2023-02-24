@@ -5,7 +5,7 @@ const on = async (id: number) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + '85c199ebb176b1acb0a50b7f0c36d5772B906246A0EFF0CD28FD753E4E6D47EABCFC9C70'
+      'Authorization': 'Bearer ' + '85c199ebb176b1acb0a50b7f0c36d57783957308E47087AC758034736AC4B78DBE617BA5'
     },
     body: JSON.stringify({
       id: id
@@ -20,7 +20,7 @@ const off = async (id: number) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + '85c199ebb176b1acb0a50b7f0c36d5772B906246A0EFF0CD28FD753E4E6D47EABCFC9C70'
+      'Authorization': 'Bearer ' + '85c199ebb176b1acb0a50b7f0c36d57783957308E47087AC758034736AC4B78DBE617BA5'
     },
     body: JSON.stringify({
       id: id

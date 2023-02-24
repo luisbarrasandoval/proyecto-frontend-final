@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { DragDropContext, OnDragEndResponder } from "react-beautiful-dnd";
 import DraggableElement from "./DraggableElement";
 import { useTheme } from "@mui/material";
+import { moveGrup } from "../utils/moveGrup";
 
 const DragDropContextContainer = styled.div`
 `;
@@ -39,10 +40,19 @@ function DragList({ devices }: DragListProps) {
   }, [devices]);
 
   const onDragEnd: OnDragEndResponder = (result) => {
-    console.log(result)
     if (!result.destination) {
       return;
     }
+
+
+    
+    const payload = {
+      id: +result.draggableId,
+      name: result.destination.droppableId
+    }
+
+    moveGrup(payload)
+
     const listCopy = { ...elements };
     const droppableSourceId = result.source.droppableId as keyof typeof listCopy;
     const droppableDestinationId = result.destination.droppableId as keyof typeof listCopy;

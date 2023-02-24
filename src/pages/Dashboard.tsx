@@ -14,7 +14,7 @@ import { useState } from "react";
 
 export default function Dashboard() {
   const { data: devices, isLoading } = useQuery(["devices"], async () =>
-    getDevices('85c199ebb176b1acb0a50b7f0c36d5772B906246A0EFF0CD28FD753E4E6D47EABCFC9C70')
+    getDevices('85c199ebb176b1acb0a50b7f0c36d57783957308E47087AC758034736AC4B78DBE617BA5')
     ,{
      
       refetchInterval: 1000

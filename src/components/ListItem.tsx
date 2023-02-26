@@ -14,9 +14,10 @@ export interface ListItemProps {
   };
 
   index: number;
+  loading: boolean
 }
 
-const ListItem = ({ item, index }: ListItemProps) => {
+const ListItem = ({ item, index, loading }: ListItemProps) => {
 
   return (
     <Draggable draggableId={item.id.toString()} index={index}>
@@ -39,6 +40,7 @@ const ListItem = ({ item, index }: ListItemProps) => {
               online={item.parmas.acc_trigger?.v > 0}
               showButton={true}
               showOptions={false}
+              loading={loading}
             />
           </DragItem>
         );

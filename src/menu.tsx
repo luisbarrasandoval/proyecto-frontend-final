@@ -67,13 +67,13 @@ export const pages: Array<Page> = [
     component: <CronPage />,
   },
 
-  {
-    name: "report",
-    label: "Reportes",
-    path: "/report",
-    icon: <Assessment />,
-    component: <Default />,
-  },
+  // {
+  //   name: "report",
+  //   label: "Reportes",
+  //   path: "/report",
+  //   icon: <Assessment />,
+  //   component: <Default />,
+  // },
 
   // {
   //   name: "setting",

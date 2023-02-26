@@ -31,15 +31,19 @@ export interface DraggableElementProps {
 const DraggableElement = ({ prefix, elements }: DraggableElementProps) => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [openDialog, setOpenDialog] = useState(false);
-  const [ onSwitch, setOnSwitch ] = useState(false);
+  const [onSwitch, setOnSwitch] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    let status = elements && elements[0] && elements[0].parmas.gprs_answer?.v.endsWith('0')
+    let status =
+      elements &&
+      elements[0] &&
+      elements[0].parmas.gprs_answer?.v.endsWith("0");
     elements.slice(1).forEach((element: any) => {
-      status = element && status && element.parmas.gprs_answer?.v.endsWith('0')
+      status = element && status && element.parmas.gprs_answer?.v.endsWith("0");
     });
-    setOnSwitch(status)
-  }, [elements])
+    setOnSwitch(status);
+  }, [elements]);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -48,6 +52,15 @@ const DraggableElement = ({ prefix, elements }: DraggableElementProps) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  useEffect(() => {
+    if (loading) {
+      const timeout = setTimeout(() => {
+        setLoading(false);
+      }, 10000);
+      return () => clearTimeout(timeout);
+    }
+  }, [loading]);
 
   return (
     <Paper elevation={3} sx={{ p: 2, m: 1 }}>
@@ -61,15 +74,20 @@ const DraggableElement = ({ prefix, elements }: DraggableElementProps) => {
         <ColumnHeader>{prefix}</ColumnHeader>
         {prefix !== "Sin Grupo" && (
           <Box sx={{ flexGrow: 0 }}>
-            <Switch checked={onSwitch} onChange={() => {
-              elements.forEach((element: any) => {
-                if (onSwitch) {
-                  off(element.id);
-                } else {
-                  on(element.id);
-                }
-              });
-              setOnSwitch(!onSwitch)}} />
+            <Switch
+              checked={onSwitch}
+              onChange={() => {
+                setLoading(true);
+                elements.forEach((element: any) => {
+                  if (onSwitch) {
+                    off(element.id);
+                  } else {
+                    on(element.id);
+                  }
+                });
+                setOnSwitch(!onSwitch);
+              }}
+            />
             <Tooltip title="Abrir opciones">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <GridMoreVertIcon />
@@ -109,10 +127,17 @@ const DraggableElement = ({ prefix, elements }: DraggableElementProps) => {
       <Droppable droppableId={`${prefix}`}>
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
-            {elements.map((item, index) => (
-              
-              item && <ListItem key={item.id.toString()} item={item} index={item.order} />
-            ))}
+            {elements.map(
+              (item, index) =>
+                item && (
+                  <ListItem
+                    key={item.id.toString()}
+                    item={item}
+                    index={item.order}
+                    loading={loading}
+                  />
+                )
+            )}
             {provided.placeholder}
             {elements.length === 0 && (
               <Stack>

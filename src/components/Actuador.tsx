@@ -31,6 +31,7 @@ export interface ActuadorProps {
   online?: boolean;
   showButton?: boolean;
   showOptions?: boolean;
+  loading?: boolean
 }
 
 const Actuador: FC<ActuadorProps> = ({
@@ -43,6 +44,7 @@ const Actuador: FC<ActuadorProps> = ({
   online = false,
   showButton = true,
   showOptions = true,
+  loading: externalLoading = false
 }) => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [openDialog, setOpenDialog] = useState(false);
@@ -77,7 +79,7 @@ const Actuador: FC<ActuadorProps> = ({
             },
           }}
         >
-          {loading ? (
+          {loading || externalLoading ? (
             <Box
               sx={{
                 width: "100%",
@@ -253,7 +255,7 @@ const Actuador: FC<ActuadorProps> = ({
                     await on(+id);
                     setTimeout(() => {
                       setLoading(false);
-                    }, 5000);
+                    }, 10000);
                   }}
                 >
                   Activar

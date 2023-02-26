@@ -9,15 +9,15 @@ import DragList from "../components/DragList";
 import LoadingDashboard from "../components/loadings/LoadingDashboard";
 import { Stack } from "@mui/system";
 import DateTime from "../components/DateTime";
-import { Add, List, Lock, RemoveRedEye, TableView } from "@mui/icons-material";
-import { useState } from "react";
+import { Add, Lock, RemoveRedEye } from "@mui/icons-material";
 
 export default function Dashboard() {
   const { data: devices, isLoading } = useQuery(["devices"], async () =>
     getDevices('85c199ebb176b1acb0a50b7f0c36d57783957308E47087AC758034736AC4B78DBE617BA5')
     ,{
      
-      refetchInterval: 1000
+      refetchInterval: 10000,
+      cacheTime: 0
     }
   );
 
@@ -31,11 +31,6 @@ export default function Dashboard() {
           <IconButton>
             <Tooltip title="Crear nuevo grupo">
               <Add />
-            </Tooltip>
-          </IconButton>
-          <IconButton>
-            <Tooltip title="Modo lista">
-              <List />
             </Tooltip>
           </IconButton>
           <IconButton>

@@ -5,7 +5,7 @@ console.log(BACK_URL)
 console.log(FRONT_URL)
 
 if (!BACK_URL) {
-  throw new Error('BACK_URL is not defined');
+  throw new Error('BACK_URL is not define');
 }
 
 if (!FRONT_URL) {

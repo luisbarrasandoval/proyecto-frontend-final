@@ -1,6 +1,7 @@
+import { Device } from "../interfaces/Devices";
 import { BACK_URL } from "./env";
 
-const getDevices = async (token: string) => {
+const getDevices = async (token: string): Promise<any[]> => {
   const devices = await fetch(BACK_URL + "/devices", {
     method: "GET",
     headers: {

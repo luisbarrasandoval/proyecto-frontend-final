@@ -32,6 +32,7 @@ import {
   StopOutlined,
 } from "@mui/icons-material";
 import LoadingTable from "../components/loadings/LoadingTable";
+import { Device } from "../interfaces/Devices";
 
 const columns = [
   {
@@ -106,24 +107,28 @@ const DevicesPage: FC = () => {
       ),
     {
       onSuccess: (data) => {
-        const d = Object.entries(data).reduce((acc, [key, value]) => {
-          return [
-            ...acc,
-            ...value.map((device) => ({
-              id: device.id,
-              name: device.name,
-              group: key,
-              phone: device.phone,
-            })),
-          ];
-        }, []);
+        const d = Object.entries(data).reduce(
+          (acc, [key, value]) => {
+            return [
+              ...acc,
+              ...value.map(
+                (device: Device) => ({
+                  id: device.id,
+                  name: device.name,
+                  group: key,
+                  phone: device.phone,
+                })
+              ),
+            ];
+          },
+          []
+        );
         setData(d);
       },
     }
   );
 
   if (isLoading) return <LoadingTable />;
-  console.log(originalData);
 
   return (
     <Box
@@ -131,9 +136,13 @@ const DevicesPage: FC = () => {
         flex: 1,
       }}
     >
-      <Modal open={clickOpen} onClose={() => setClickOpen(false)} sx={{
-        overflowY:"scroll"
-      }}>
+      <Modal
+        open={clickOpen}
+        onClose={() => setClickOpen(false)}
+        sx={{
+          overflowY: "scroll",
+        }}
+      >
         <Paper
           sx={{
             display: "flex",
@@ -143,12 +152,11 @@ const DevicesPage: FC = () => {
             margin: "70px auto",
             padding: 1,
             overflow: "auto",
-            overflowY: "scroll"            
+            overflowY: "scroll",
           }}
         >
           <Typography variant="h5">Informacion del dispositivo</Typography>
           <JSONTree
-
             data={Object.keys(originalData)
               .map((k) => originalData[k])
               .flat()
@@ -156,7 +164,6 @@ const DevicesPage: FC = () => {
             theme={{
               scheme: "monokai",
             }}
-            
           />
         </Paper>
       </Modal>

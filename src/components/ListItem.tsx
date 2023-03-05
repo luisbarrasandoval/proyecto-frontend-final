@@ -10,7 +10,9 @@ const DragItem = styled.div`
 export interface ListItemProps {
   item: {
     id: string;
-    content: string;
+    name: string,
+    phone: string,
+    parmas: Record<string, any>
   };
 
   index: number;

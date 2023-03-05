@@ -1,20 +1,21 @@
 import { Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Skeleton } from "@mui/material";
 import { Box } from "@mui/system";
 import { useQuery } from "@tanstack/react-query";
-import { FC, useState } from "react";
+import { FC } from "react";
 import getDevices from "../utils/getDevices";
 
 interface SelectGrupProps {
-  value?: string | string[];
-  onChange?: React.Dispatch<React.SetStateAction<string[] | string>>
-  multiple?: boolean;
+  value: string[]
+  onChange: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 
 
-function MultipleSelectChip() {
-  const [devicesName, setDeviceName] = useState<string[]>([]);
-
+const SelectGrup: FC<SelectGrupProps> = ({
+  value: devicesName,
+  onChange: setDeviceName,
+}) => {
+  
   const { data: devices, isLoading } = useQuery(["devices"], async () =>
     getDevices(
       "85c199ebb176b1acb0a50b7f0c36d57783957308E47087AC758034736AC4B78DBE617BA5"
@@ -22,7 +23,6 @@ function MultipleSelectChip() {
   );
 
   const names = Object.keys(devices || {}).filter(name => name !== "Sin Grupo")
-
 
   if (isLoading) {
     return <Skeleton variant="rectangular" height={44} />
@@ -40,10 +40,11 @@ function MultipleSelectChip() {
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="multiple-grup-label">Chip</InputLabel>
+        <InputLabel id="multiple-grup-label">Grupos</InputLabel>
         <Select
           labelId="multiple-grup-label"
           id="multiple-grup"
+          fullWidth
           multiple
           value={devicesName}
           onChange={handleChange}
@@ -72,4 +73,4 @@ function MultipleSelectChip() {
 }
 
 
-export default MultipleSelectChip;
+export default SelectGrup;

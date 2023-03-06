@@ -32,6 +32,7 @@ const CronCalendar = () => {
       ),
     {
       onSuccess: (data) => {
+        
         setEvents((old: any[]) =>
           [
             ...old,
@@ -77,6 +78,7 @@ const CronCalendar = () => {
                 extendedProps: {
                   description: event.description,
                   grup: event.grup,
+                  id: event._id,
                 },
               };
             }),
@@ -146,7 +148,7 @@ const CronCalendar = () => {
         ref={calendarRef}
         contentHeight={window.innerHeight - 150}
         // timeZone="America/Santiago"
-        eventContent={(e) => <RenderEventContent eventInfo={e} />}
+        eventContent={(e) => <RenderEventContent eventInfo={e} setEvents={setEvents} />}
         editable={true}
         selectable={true}
         select={function (arg) {
